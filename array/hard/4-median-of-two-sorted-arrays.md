@@ -1,7 +1,7 @@
 # 4. Median of Two Sorted Arrays
 
 **ENG:** Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
-The overall run time complexity should be O(log(m + n)).
+The overall run time complexity should be $`O(log(m + n))`$.
  
  **RU:** Учитывая два отсортированных массива nums1 и nums2 размером m и n соответственно, верните медиану двух отсортированных массивов.
 Общая сложность времени выполнения должна быть $`O(log(m + n))`$.
@@ -47,3 +47,8 @@ public:
     }
 };
 ```
+## Estimate
+1. Копирование элементов из nums1 и nums2 в новый вектор (merged) занимает $`O(n + m)`$, где n и m - размеры входных массивов.
+2. Сортировка массива merged с использованием std::sort имеет временную сложность $`O((n + m) * log(n + m))`$, где n и m - размеры входных массивов.
+### Summary
+Итак, общая временная сложность вашего алгоритма составляет O((n + m) * log(n + m)), где n и m - размеры входных массивов. Это связано с сортировкой, которая является наиболее затратной операцией в данном алгоритме.
