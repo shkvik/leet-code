@@ -14,7 +14,7 @@
 // Input : nums1 = [1, 2], nums2 = [3, 4]
 // Output : 2.50000
 // Explanation : merged array = [1, 2, 3, 4] and median is(2 + 3) / 2 = 2.5.
-
+```cpp
 class Solution {
 public:
     static double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -31,3 +31,4 @@ public:
                     ) / 2.0f : merged.at(size / 2);
     }
 };
+```
