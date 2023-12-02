@@ -58,6 +58,7 @@ void mergeSort(vector<int>& arr, int left, int right) {
 
 ```cpp
 void merge(std::vector<int>& arr, int left, int mid, int right) {
+    //размеры временных массивов
     int n1 = mid - left + 1;
     int n2 = right - mid;
     // Создаем временные массивы
@@ -95,5 +96,135 @@ void merge(std::vector<int>& arr, int left, int mid, int right) {
         ++j;
         ++k;
     }
+}
+```
+Согласитесь, получилась длинная простыня. Надо разобрать пошагово.
+### 1. Находим индексы временных массивов
+1. Найдём размеры для временных массив, не забывая учитывать, что первый элемент находится по индексу 0
+2. Копируем данные из исходного массива, также не забывая про индексы
+3. Далее мы собираемся итерироваться по массивам через циклы ```while```, поэтому нам также потребуется индексы для них
+```cpp
+    //размеры временных массивов
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Создаем временные массивы
+    std::vector<int> leftArray(n1);
+    std::vector<int> rightArray(n2);
+
+    // Копируем данные во временные массивы leftArray[] и rightArray[]
+    for (int i = 0; i < n1; ++i)
+        leftArray[i] = arr[left + i];
+    for (int j = 0; j < n2; ++j)
+        rightArray[j] = arr[mid + 1 + j];
+
+    // Слияние временных массивов обратно в arr[left..right]
+    int i = 0; // Индекс первого подмассива
+    int j = 0; // Индекс второго подмассива
+    int k = left; // Индекс объединенного подмассива
+```
+### 2. Кишки алгоритма
+Добрались до самого главного, начинаем итерироваться. Если долго смотреть на код, то возникнет логичный вопрос, а что будет с элементами массива, которые не смогли попасть в сравнение? Об этом мы тоже позаботимся, но не в рамках этого цикла 
+```cpp
+while (i < n1 && j < n2) {
+    if (leftArray[i] <= rightArray[j]) {
+        arr[k] = leftArray[i];
+        ++i;
+    }
+    else {
+        arr[k] = rightArray[j];
+        ++j;
+    }
+    ++k;
+}
+```
+Логика такая, что мы проходимся по двум массивам и записываем результат сравнения в исходный массив. Недостаток всего этого в том, что необходимо следить за индексами вручную.
+<p align="center">
+<img src="https://github.com/shkvik/leet-code/assets/75574213/1e519ee0-f3a5-4b02-bc1a-e34c81ffeb70"
+</p>
+    
+После того, как мы прошлись по всем вариантам, у нас, возможно, останется отсортированный кусок, который также необходимо добавить в конец, делается это таким образом
+
+
+    
+```cpp
+// Копирование оставшихся элементов leftArray[], если такие есть
+while (i < n1) {
+    arr[k] = leftArray[i];
+    ++i;
+    ++k;
+}
+
+// Копирование оставшихся элементов rightArray[], если такие есть
+while (j < n2) {
+    arr[k] = rightArray[j];
+    ++j;
+    ++k;
+}
+```
+Поздравляю, вы отсортировали массив, полный код предоставлен ниже
+```cpp
+#include <vector>;
+using namespace std;
+
+void merge(vector<int>& arr, int left, int mid, int right) {
+    //размеры временных массивов
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    // Создаем временные массивы
+    vector<int> leftArray(n1);
+    vector<int> rightArray(n2);
+    // Копируем данные во временные массивы leftArray[] и rightArray[]
+    for (int i = 0; i < n1; ++i)
+        leftArray[i] = arr[left + i];
+    for (int j = 0; j < n2; ++j)
+        rightArray[j] = arr[mid + 1 + j];
+    // Слияние временных массивов обратно в arr[left..right]
+    int i = 0; // Индекс первого подмассива
+    int j = 0; // Индекс второго подмассива
+    int k = left; // Индекс объединенного подмассива
+    while (i < n1 && j < n2) {
+        if (leftArray[i] <= rightArray[j]) {
+            arr[k] = leftArray[i];
+            ++i;
+        }
+        else {
+            arr[k] = rightArray[j];
+            ++j;
+        }
+        ++k;
+    }
+    // Копирование оставшихся элементов leftArray[], если такие есть
+    while (i < n1) {
+        arr[k] = leftArray[i];
+        ++i;
+        ++k;
+    }
+    // Копирование оставшихся элементов rightArray[], если такие есть
+    while (j < n2) {
+        arr[k] = rightArray[j];
+        ++j;
+        ++k;
+    }
+}
+
+void mergeSort(vector<int>& arr, int left, int right)
+{
+    if (left < right) {
+        //Находим середину массива
+        auto mid = left + (right - left) / 2;     
+        // Рекурсивно сортируем две половины
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+vector<int> MergeSort(const vector<int>& arr) {
+    if (std::is_sorted(arr.begin(), arr.end()) || arr.size() < 2)
+        return arr;
+    auto result = vector<int>(arr);
+    mergeSort(result, 0, arr.size() - 1);
+    return result;
 }
 ```
