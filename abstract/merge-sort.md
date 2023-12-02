@@ -29,20 +29,20 @@ if (std::is_sorted(arr.begin(), arr.end()) || arr.size() < 2)
 ```
 Дальше заглянем внутрть в функцию нижнего уровня ```mergeSort```
 ```cpp
-void mergeSort(vector<int>& arr, int left, int right)
-{
+void mergeSort(vector<int>& arr, int left, int right) {
     if (left < right) {
         //Находим середину массива
         auto mid = left + (right - left) / 2;
-        
         // Рекурсивно сортируем две половины
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid+1, right);
-
-        merge(arr, left, mid, right);
+        mergeSort(arr, left, mid);    //call merge left
+        mergeSort(arr, mid+1, right); //call merge right
+        merge(arr, left, mid, right); //call merge
     }
 }
 ```
-Сразу было бы неплохо разобрать сам метод, функция является рекурсивной, и она будет выполнятся до тех пор, пока левый указать не станет меньше правого (метод двух указателй). Каждый разы мы находим текущю середину массива, который собираемся сортировать. Данный метод не является параллельным, и следовало бы понять порядок вызовов. 
-
+Сразу было бы неплохо разобрать сам метод, функция является рекурсивной, и она будет выполнятся до тех пор, пока левый указать не станет меньше правого (метод двух указателй). Каждый разы мы находим текущю середину массива, который собираемся сортировать. Данный метод не является параллельным, и следовало бы понять порядок вызовов.
+### Schema
+<p align="center">
+<img src="https://github.com/shkvik/leet-code/assets/75574213/c714eac0-78a6-46b3-b79b-91dd643a7ffe"
+</p>
 
