@@ -26,7 +26,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 -100 <= nums[i] <= 100
 nums is sorted in non-decreasing order.
 ```
-## Solution
+## Solution C++
 ```cpp
 class Solution {
 public:
@@ -40,6 +40,20 @@ public:
         }
         return result;
     }
+};
+```
+
+## Solution TypeScript
+```typescript
+function removeDuplicates(nums: number[]): number {
+   let k: number = 1;
+    for(let i: number = 1; i < nums.length; i++) {
+        if(nums[i] != nums[i-1]){
+            nums[k] = nums[i];
+            k++;
+        }
+    }
+    return k;
 };
 ```
 
