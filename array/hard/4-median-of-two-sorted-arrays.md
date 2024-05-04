@@ -29,6 +29,7 @@ Explanation : merged array = [1, 2, 3, 4] and median is(2 + 3) / 2 = 2.5.
 Самое простое решение - это объеденить массивы в новый заранее аллоцированный массив, отсортировать его и там уже искать. Потом определить четность, и возвращать значение с плавующей точкой, если медиана ищется в массиве с четным количеством элементов
 
 ### Step 2: Relise
+**C++**
 ```cpp
 class Solution {
 public:
@@ -45,6 +46,14 @@ public:
                 merged.at((size / 2) - 1) + merged.at(size / 2)
                     ) / 2.0f : merged.at(size / 2);
     }
+};
+```
+**TypeScript**
+```ts
+function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
+  const arr = [...nums1, ...nums2].sort((a,b) => a - b);
+  const median = Math.floor(arr.length / 2);
+  return arr.length % 2 === 0 ? (arr[median] + arr[median-1]) / 2 : arr[median] 
 };
 ```
 ## Estimate
